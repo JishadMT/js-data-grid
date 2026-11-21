@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Directory - JsDataGrid</title>
+    <link rel="stylesheet" href="/js-data-grid-dist-folder/style/js-data-grid.css" />
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+    <h2>Employee Directory (Server-Side Data)</h2>
+    <div class="endpoint-note">
+        Active source: <code id="activeSource">GET /api/items</code>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" id="searchInput" placeholder="Search name or email..." />
+
+        <select id="deptFilter">
+            <option value="">All Departments</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="HR">HR</option>
+            <option value="Finance">Finance</option>
+        </select>
+
+        <select id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            <option value="Pending">Pending</option>
+        </select>
+
+        <label for="pageSizeSelect">Page Size:</label>
+        <select id="pageSizeSelect" onchange="refreshGrid()">
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+
+        <button type="button" onclick="applyPostFilters()">Apply Filters (POST)</button>
+        <button type="button" class="secondary" onclick="resetToGet()">Reset (GET)</button>
+    </div>
+
+    <div id="grid"></div>
+
+    <hr class="section-divider" />
+
+    <h2>Quick Announcements (Client-Side Data)</h2>
+    <div id="localGrid"></div>
+
+    <script src="/js-data-grid-dist-folder/index.global.js"></script>
+    <script>
+        const { JsDataGrid } = window.JsDataGridLib;
+
+        let grid = null;
+        let usePostEndpoint = false;
+
+        const columns = [
+            { key: "id", label: "ID" },
+            {
+                key: "name",
+                label: "Name",
+                formatter: (value, row) => {
+                    const el = document.createElement("span");
+                    el.textContent = `${value ?? ""} (${row.department})`;
+                    el.style.fontWeight = "500";
+                    return el;
+                }
+            },
+            { key: "email", label: "Email" },
+            { key: "department", label: "Department" },
+            {
+                key: "status",
+                label: "Status",
+                formatter: (value) => `<span class="status-badge">${value}</span>`
+            },
+            {
+                key: "salary",
+                label: "Salary",
+                formatter: (value) => `$${Number(value || 0).toLocaleString()}`
+            }
+        ];
+
+        function getFilterPayload() {
+            return {
+                search: document.getElementById("searchInput").value.trim(),
+                department: document.getElementById("deptFilter").value,
+                status: document.getElementById("statusFilter").value
+            };
+        }
+
+        function mountGrid() {
+            const container = document.getElementById("grid");
+            container.innerHTML = "";
+
+            const pageSize = parseInt(document.getElementById("pageSizeSelect").value, 10) || 5;
+            const indicator = document.getElementById("activeSource");
+
+            if (usePostEndpoint) {
+                const filters = getFilterPayload();
+                indicator.textContent = "POST /api/items/search";
+
+                grid = new JsDataGrid({
+                    container: "#grid",
+                    url: "/api/items/search",
+                    method: "POST",
+                    pageSize,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: ({ page, limit }) => ({
+                        page,
+                        limit,
+                        filters
+                    }),
+                    transformResponse: (res) => ({
+                        data: res.data,
+                        total: res.total
+                    }),
+                    columns
+                });
+            } else {
+                indicator.textContent = "GET /api/items";
+
+                grid = new JsDataGrid({
+                    container: "#grid",
+                    url: "/api/items",
+                    method: "GET",
+                    pageSize,
+                    pageParamName: "page",
+                    limitParamName: "limit",
+                    transformResponse: (res) => ({
+                        data: res.data,
+                        total: res.total
+                    }),
+                    columns
+                });
+            }
+        }
+
+        function applyPostFilters() {
+            usePostEndpoint = true;
+            mountGrid();
+        }
+
+        function resetToGet() {
+            document.getElementById("searchInput").value = "";
+            document.getElementById("deptFilter").value = "";
+            document.getElementById("statusFilter").value = "";
+            usePostEndpoint = false;
+            mountGrid();
+        }
+
+        function refreshGrid() {
+            mountGrid();
+        }
+
+        // Initial load using GET endpoint
+        mountGrid();
+
+        // Client side grid
+        const announcements = [
+            { id: 1, title: "Q4 Town Hall", owner: "HR", priority: "High", status: "Active" },
+            { id: 2, title: "API Rate Limit Update", owner: "Engineering", priority: "Medium", status: "Active" },
+            { id: 3, title: "Expense Policy Refresh", owner: "Finance", priority: "Low", status: "Pending" },
+            { id: 4, title: "Security Training Due", owner: "Engineering", priority: "High", status: "Active" },
+            { id: 5, title: "Holiday Office Hours", owner: "Operations", priority: "Low", status: "Inactive" }
+        ];
+
+        const localGrid = new JsDataGrid({
+            container: "#localGrid",
+            data: announcements,
+            pageSize: 3,
+            columns: [
+                { key: "id", label: "ID" },
+                { key: "title", label: "Announcement" },
+                { key: "owner", label: "Owner" },
+                { key: "priority", label: "Priority" },
+                {
+                    key: "status",
+                    label: "Status",
+                    formatter: (value) => `<span class="status-badge">${value}</span>`
+                }
+            ]
+        }); 
+    </script>
+</body>
+</html>

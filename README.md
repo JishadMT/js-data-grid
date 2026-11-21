@@ -98,7 +98,7 @@ const grid = new JsDataGrid<User>({
 
   <script src="https://unpkg.com/js-data-grid/dist/index.global.js"></script>
   <script>
-    const { JsDataGrid } = window.JsDataGrid;
+    const { JsDataGrid } = window.JsDataGridLib;
 
     new JsDataGrid({
       container: "#grid",

@@ -9,3 +9,4 @@
 .jdg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .jdg-loading, .jdg-empty, .jdg-error { text-align: center; padding: 24px; color: #64748b; }
 .jdg-error { color: #ef4444; }
+.jdg-page-info { padding: 0 8px;}

@@ -1,0 +1,11 @@
+.jdg-container { font-family: system-ui, -apple-system, sans-serif; width: 100%; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+.jdg-table-wrapper { overflow-x: auto; }
+.jdg-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+.jdg-table th, .jdg-table td { padding: 12px 16px; border-bottom: 1px solid #e2e8f0; }
+.jdg-table th { background-color: #f8fafc; font-weight: 600; color: #475569; }
+.jdg-table tbody tr:hover { background-color: #f1f5f9; }
+.jdg-pagination { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #f8fafc; }
+.jdg-btn { padding: 6px 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 4px; cursor: pointer; }
+.jdg-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.jdg-loading, .jdg-empty, .jdg-error { text-align: center; padding: 24px; color: #64748b; }
+.jdg-error { color: #ef4444; }

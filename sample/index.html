@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="../dist/style/js-data-grid.css">
+</head>
+
+<body>
+    <div id="grid"></div>
+
+    <!-- CDN script exposes window.JsDataGridLib -->
+    <script src="../dist/index.global.js"></script>
+    <script>
+        const { JsDataGrid } = window.JsDataGridLib;
+
+        new JsDataGrid({
+            container: '#grid',
+            data: [
+                { id: 101, title: 'Item 1' },
+                { id: 102, title: 'Item 2' },
+                { id: 103, title: 'Item 3' },
+                { id: 104, title: 'Item 4' },
+                { id: 105, title: 'Item 5' },
+            ],
+            columns: [
+                { key: 'id', label: 'ID' },
+                {
+                    key: 'title', 
+                    label: 'Title', 
+                    formatter: (value, row) => {
+                        const safeHref = `/projects/${encodeURIComponent(row.id)}`;
+                        const safeLabel = String(value ?? row.id);
+                        return `<a href="${safeHref}" class="mg-link">${safeLabel}</a>`;
+                    }
+                }
+            ],
+            pageSize: 3
+        });
+    </script>
+</body>
+
+</html>

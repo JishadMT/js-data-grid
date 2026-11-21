@@ -1,0 +1,42 @@
+{
+  "name": "js-data-grid",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A lightweight, zero-dependency data grid library for the browser.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/index.global.js",
+  "jsdelivr": "./dist/index.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./css": "./dist/js-data-grid.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "grid",
+    "datagrid",
+    "jqgrid",
+    "lightweight",
+    "table",
+    "pagination"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@typescript/typescript6": "^6.0.2",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2"
+  }
+}

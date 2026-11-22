@@ -108,7 +108,7 @@ const grid = new JsDataGrid<User>({
       ],
       pageSize: 10,
       columns: [
-        { key: "id", label: "ID" },
+        { key: "id", label: "ID", sort: true },
         { key: "title", label: "Title" },
         {
           key: "status",
@@ -199,7 +199,7 @@ new JsDataGrid({
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `container` | `string | HTMLElement` | *Required* | CSS selector or target DOM element. |
-| `columns` | `GridColumn<T>[]` | *Required* | Column definitions (`key`, `label`, `formatter`). |
+| `columns` | `GridColumn<T>[]` | *Required* | Column definitions (`key`, `label`, `formatter`, `sort`). |
 | `data` | `T[]` | `null` | Local dataset for client-side pagination. |
 | `url` | `string` | `null` | Remote API endpoint URL. |
 | `method` | `"GET" | "POST"` | `"GET"` | HTTP method used when fetching from `url`. |
@@ -209,6 +209,16 @@ new JsDataGrid({
 | `limitParamName` | `string` | `"limit"` | Query parameter name for `GET` page size. |
 | `pageSize` | `number` | `10` | Number of records per page. |
 | `transformResponse` | `(raw: any) => { data: T[]; total: number }` | `(res) => res` | Maps API response fields to `{ data, total }`. |
+| `onSort` | `({key, direction, column}) => { }` | `(res) => res` | Callback event on sort actions |
+
+## Column Options
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `key` | `string` | *Required* | Unique key in data to identify the value for column. |
+| `label` | `string` | null | Display header for column. |
+| `formatter` | `(value: any, rowData: T, rowIndex: number) => string \| HTMLElement` | `(res) => res` | Render custom HTML elements for the column data. |
+| `sort` | `bool` | null | Indicates whether sort is enabled for this column or not.|
 
 ### Public Methods
 

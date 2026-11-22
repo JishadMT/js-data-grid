@@ -14,6 +14,7 @@ export interface GridColumn<T = any> {
   key: string;
   label?: string;
   formatter?: (value: any, rowData: T, rowIndex: number) => string | HTMLElement;
+  sort?: boolean
 }
 
 export interface TransformResponseResult<T = any> {
@@ -32,5 +33,6 @@ export interface JsDataGridOptions<T = any> {
   pageParamName?: string; // Defaults to 'page'
   limitParamName?: string; // Defaults to 'limit'
   pageSize?: number;
+  onSort?: Function,
   transformResponse?: (rawResponse: any) => TransformResponseResult<T>;
 }

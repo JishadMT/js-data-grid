@@ -10,3 +10,7 @@
 .jdg-loading, .jdg-empty, .jdg-error { text-align: center; padding: 24px; color: #64748b; }
 .jdg-error { color: #ef4444; }
 .jdg-page-info { padding: 0 8px;}
+.jdg-table th.jdg-sortable { cursor: pointer; user-select: none;}
+.jdg-sort-icon { float: right; margin-left: 8px; opacity: 0.6;}
+.jdg-sort-icon.asc::before { content: "\2191"; display: inline;}
+.jdg-sort-icon.desc::before { content: "\2193"; display: inline;}

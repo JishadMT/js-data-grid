@@ -1,7 +1,7 @@
 
 # JsDataGrid (`js-data-grid`)
 
-A lightweight, zero-dependency TypeScript data grid library inspired by jqGridâ€”built for fast DOM rendering, pagination, and custom HTML or DOM element formatters.
+A lightweight, zero-dependency TypeScript data grid library inspired by jqGrid; built for fast DOM rendering, pagination, and custom HTML or DOM element formatters.
 
 ## Features
 
@@ -18,15 +18,15 @@ A lightweight, zero-dependency TypeScript data grid library inspired by jqGridâ€
 ### Via npm
 
 ```bash
-npm install js-data-grid
+npm install @jishadmt/js-data-grid
 
 ```
 
 ### Via CDN (unpkg / jsDelivr)
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/js-data-grid/dist/js-data-grid.css" />
-<script src="https://unpkg.com/js-data-grid/dist/index.global.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@jishadmt/js-data-grid@0.1.0/dist/style/js-data-grid.css" />
+<script src="https://unpkg.com/@jishadmt/js-data-grid@0.1.0/dist/index.global.js"></script>
 
 ```
 
@@ -91,12 +91,12 @@ const grid = new JsDataGrid<User>({
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JsDataGrid Demo</title>
-  <link rel="stylesheet" href="https://unpkg.com/js-data-grid/dist/js-data-grid.css" />
+  <link rel="stylesheet" href="https://unpkg.com/@jishadmt/js-data-grid@0.1.0/dist/style/js-data-grid.css" />
 </head>
 <body>
   <div id="grid"></div>
 
-  <script src="https://unpkg.com/js-data-grid/dist/index.global.js"></script>
+  <script src="https://unpkg.com/@jishadmt/js-data-grid@0.1.0/dist/index.global.js"></script>
   <script>
     const { JsDataGrid } = window.JsDataGridLib;
 

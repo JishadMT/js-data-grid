@@ -1,0 +1,52 @@
+name: Manual Publish to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump before publishing (choose 'none' if already bumped in package.json)"
+        required: true
+        default: "none"
+        type: choice
+        options:
+          - none
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write # Needed only if version_bump != none commits back to main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check and build
+        run: |
+          npm run type-check
+          npm run build
+
+      - name: Bump version (if selected)
+        if: ${{ inputs.version_bump != 'none' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          npm version ${{ inputs.version_bump }} -m "chore: release v%s"
+          git push origin HEAD --follow-tags
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public

@@ -24,7 +24,7 @@ export class JsDataGrid<T extends Record<string, any> = Record<string, any>> {
   private totalPages: number = 1;
   private sortKey: string = "";
   private sortDirection: string = "";
-  private onSortCallback: Function;
+  private onSortCallback: Function | undefined;
   private transformResponse: (res: any) => { data: T[]; total: number };
 
   constructor(options: JsDataGridOptions<T>) {
@@ -48,6 +48,7 @@ export class JsDataGrid<T extends Record<string, any> = Record<string, any>> {
     this.limitParamName = options.limitParamName || 'limit';
     this.pageSize = options.pageSize || 10;
     this.transformResponse = options.transformResponse || ((res: any) => res);
+    this.onSortCallback = options.onSort;
 
     this.init();
   }
@@ -242,12 +243,12 @@ export class JsDataGrid<T extends Record<string, any> = Record<string, any>> {
     }
 
     const dirMultiplier = direction === 'desc' ? -1 : 1;
-    const column = this.columns?.find((c) => c.key === key) || {};
+    const column = this.columns?.find((c) => c.key === key) || null;
 
-    const getValue = (obj, path) =>
-      path.split('.').reduce((acc, part) => (acc != null ? acc[part] : undefined), obj);
+    const getValue = (obj: any, path: any) =>
+      path.split('.').reduce((acc: any, part: any) => (acc != null ? acc[part] : undefined), obj);
 
-    const normalizeValue = (val, forcedType) => {
+    const normalizeValue = (val: any, forcedType: any) => {
       if (val === null || val === undefined || val === '') return null;
 
       if (forcedType === 'number') {
@@ -294,7 +295,7 @@ export class JsDataGrid<T extends Record<string, any> = Record<string, any>> {
       .map((row, index) => ({
         row,
         index, // Preserve original order on ties (stability)
-        value: normalizeValue(getValue(row, key), column.type),
+        value: normalizeValue(getValue(row, key), column?.type),
       }))
       .sort((a, b) => {
         const valA = a.value;

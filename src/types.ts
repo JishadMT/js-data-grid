@@ -14,7 +14,8 @@ export interface GridColumn<T = any> {
   key: string;
   label?: string;
   formatter?: (value: any, rowData: T, rowIndex: number) => string | HTMLElement;
-  sort?: boolean
+  sort?: boolean,
+  type?: string
 }
 
 export interface TransformResponseResult<T = any> {

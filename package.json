@@ -1,5 +1,5 @@
 {
-  "name": "js-data-grid",
+  "name": "@jishadmt/js-data-grid",
   "version": "0.1.0",
   "type": "module",
   "description": "A lightweight, zero-dependency data grid library for the browser.",
